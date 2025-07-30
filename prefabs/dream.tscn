@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqdpse8x6qnqy"]
+
+[ext_resource type="Script" uid="uid://xseiv624l5qn" path="res://scripts/dream.gd" id="1_xbmxs"]
+[ext_resource type="Texture2D" uid="uid://bpilfhpdq63ki" path="res://sprites/circle.png" id="2_2uwfh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o6xl0"]
+
+[node name="dream" type="Area2D"]
+script = ExtResource("1_xbmxs")
+direction = Vector2(-1, 0.5)
+up_down_magnitude = 10.0
+up_down_speed = 0.5
+
+[node name="sprite" type="Sprite2D" parent="."]
+self_modulate = Color(0.359003, 0.481777, 0.284369, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_2uwfh")
+
+[node name="shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_o6xl0")

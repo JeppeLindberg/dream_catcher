@@ -1,0 +1,241 @@
+[gd_scene load_steps=13 format=3 uid="uid://b00cd2indxrbc"]
+
+[ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://bpilfhpdq63ki" path="res://sprites/circle.png" id="2_0wfyh"]
+[ext_resource type="Script" uid="uid://5i1alw5h5qiu" path="res://scripts/player.gd" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://djxby67twl11m" path="res://prefabs/bullet_preview.tscn" id="3_choun"]
+[ext_resource type="PackedScene" uid="uid://b00volwc6gtfy" path="res://prefabs/bullet.tscn" id="3_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://c7fxnk0pdpx37" path="res://sprites/arrow_head.png" id="4_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c7ghtcr6g2eya" path="res://prefabs/wall.tscn" id="5_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://t3uonexf6o8f" path="res://prefabs/border.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://dqdpse8x6qnqy" path="res://prefabs/dream.tscn" id="7_tipki"]
+[ext_resource type="PackedScene" uid="uid://b3hqfv650qq4d" path="res://prefabs/spawner.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://denyvxuwt1778" path="res://scripts/debug.gd" id="11_ya4ey"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
+
+[node name="main" type="Node2D"]
+
+[node name="world" type="Node2D" parent="."]
+position = Vector2(582, 310)
+
+[node name="entities" type="Node2D" parent="world"]
+
+[node name="player" type="Node2D" parent="world/entities" node_paths=PackedStringArray("gun", "entities", "preview")]
+script = ExtResource("2_jyhfs")
+gun = NodePath("gun")
+bullet = ExtResource("3_tbgi4")
+preview_bullet = ExtResource("3_choun")
+entities = NodePath("..")
+preview = NodePath("../../preview")
+
+[node name="sprite" type="Sprite2D" parent="world/entities/player"]
+scale = Vector2(0.116274, 0.116274)
+texture = ExtResource("2_0wfyh")
+
+[node name="gun" type="Node2D" parent="world/entities/player"]
+rotation = -1.5708
+
+[node name="sprite" type="Sprite2D" parent="world/entities/player/gun"]
+position = Vector2(13, 0)
+rotation = 1.5708
+scale = Vector2(0.123119, 0.123119)
+texture = ExtResource("4_tbgi4")
+
+[node name="wall" parent="world/entities" instance=ExtResource("5_o6xl0")]
+position = Vector2(39, -39)
+
+[node name="wall4" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-34, -39)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall4"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall4"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall5" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-34, -59)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall5"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall5"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall6" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-54, -39)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall6"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall6"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall7" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-50, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall7"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall7"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall8" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-30, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall8"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall8"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall9" type="StaticBody2D" parent="world/entities"]
+position = Vector2(-10, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall9"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall9"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall10" type="StaticBody2D" parent="world/entities"]
+position = Vector2(10, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall10"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall10"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall11" type="StaticBody2D" parent="world/entities"]
+position = Vector2(30, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall11"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall11"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall12" type="StaticBody2D" parent="world/entities"]
+position = Vector2(50, 49)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall12"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall12"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall3" type="StaticBody2D" parent="world/entities"]
+position = Vector2(39, -59)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall3"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall3"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="wall2" type="StaticBody2D" parent="world/entities"]
+position = Vector2(59, -39)
+collision_layer = 2
+collision_mask = 2
+
+[node name="sprite" type="Sprite2D" parent="world/entities/wall2"]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_o5qli")
+
+[node name="shape" type="CollisionShape2D" parent="world/entities/wall2"]
+shape = SubResource("RectangleShape2D_tbgi4")
+
+[node name="preview" type="Node2D" parent="world"]
+
+[node name="static" type="Node2D" parent="world"]
+
+[node name="black" type="Sprite2D" parent="world/static"]
+self_modulate = Color(0, 0, 0, 1)
+z_index = -1
+scale = Vector2(144.126, 55.6354)
+texture = ExtResource("1_o5qli")
+
+[node name="background" type="Sprite2D" parent="world/static"]
+z_index = -1
+scale = Vector2(3, 3)
+texture = ExtResource("1_o5qli")
+
+[node name="2" type="Sprite2D" parent="world/static/background"]
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.95, 0.95)
+texture = ExtResource("1_o5qli")
+
+[node name="border" parent="world/static" instance=ExtResource("6_tefeu")]
+position = Vector2(0, -147)
+warp_delta = Vector2(0, 285)
+
+[node name="border2" parent="world/static" instance=ExtResource("6_tefeu")]
+position = Vector2(0, 147)
+warp_delta = Vector2(0, -285)
+
+[node name="border3" parent="world/static" instance=ExtResource("6_tefeu")]
+position = Vector2(-147, 0)
+rotation = 1.57079
+warp_delta = Vector2(285, 0)
+
+[node name="border4" parent="world/static" instance=ExtResource("6_tefeu")]
+position = Vector2(147, 0)
+rotation = 1.57079
+warp_delta = Vector2(-285, 0)
+
+[node name="spawner" parent="world/static" node_paths=PackedStringArray("entities") instance=ExtResource("9_85g3d")]
+position = Vector2(573, -377)
+entities = NodePath("../../entities")
+spawns_per_sec = 0.2
+spawn_prefab = ExtResource("7_tipki")
+max_distance = 50.0
+
+[node name="spawner2" parent="world/static" node_paths=PackedStringArray("entities") instance=ExtResource("9_85g3d")]
+position = Vector2(758, -282)
+entities = NodePath("../../entities")
+spawns_per_sec = 0.2
+spawn_prefab = ExtResource("7_tipki")
+max_distance = 50.0
+
+[node name="canvas_layer" type="CanvasLayer" parent="."]
+
+[node name="debug" type="Control" parent="canvas_layer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_ya4ey")
