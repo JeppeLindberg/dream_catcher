@@ -1,158 +1,147 @@
-[gd_scene load_steps=9 format=3 uid="uid://b00cd2indxrbc"]
+[gd_scene load_steps=10 format=3 uid="uid://b00cd2indxrbc"]
 
 [ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://2dg0etc2tjkj" path="res://prefabs/player.tscn" id="1_o6xl0"]
+[ext_resource type="Script" uid="uid://d01ktcxcd3p5t" path="res://scripts/world.gd" id="1_tipki"]
+[ext_resource type="Script" uid="uid://cb827swstlrut" path="res://scripts/stage.gd" id="3_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c7ghtcr6g2eya" path="res://prefabs/wall.tscn" id="5_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://t3uonexf6o8f" path="res://prefabs/border.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://dqdpse8x6qnqy" path="res://prefabs/dream.tscn" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://b3hqfv650qq4d" path="res://prefabs/spawner.tscn" id="9_85g3d"]
 [ext_resource type="Script" uid="uid://denyvxuwt1778" path="res://scripts/debug.gd" id="11_ya4ey"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
-
 [node name="main" type="Node2D"]
 
-[node name="world" type="Node2D" parent="."]
+[node name="world" type="Node2D" parent="." node_paths=PackedStringArray("stages")]
+script = ExtResource("1_tipki")
+stages = [NodePath("entities/stage_1"), NodePath("entities/stage_2")]
 
 [node name="entities" type="Node2D" parent="world"]
 
 [node name="player" parent="world/entities" node_paths=PackedStringArray("camera") instance=ExtResource("1_o6xl0")]
-camera = NodePath("../../../Camera2D")
+camera = NodePath("../../../camera")
 
-[node name="wall" parent="world/entities" instance=ExtResource("5_o6xl0")]
-position = Vector2(39, -39)
+[node name="stage_1" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
 
-[node name="wall4" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-34, -39)
-collision_layer = 2
-collision_mask = 2
+[node name="wall" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 40)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall4"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall11" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 40)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall4"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall12" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 40)
 
-[node name="wall5" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-34, -59)
-collision_layer = 2
-collision_mask = 2
+[node name="wall13" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 40)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall5"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall14" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(120, 40)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall5"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall15" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(140, 40)
 
-[node name="wall6" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-54, -39)
-collision_layer = 2
-collision_mask = 2
+[node name="wall2" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(20, 40)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall6"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall3" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(0, 40)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall6"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall4" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-20, 40)
 
-[node name="wall7" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-50, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="wall5" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 40)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall7"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall6" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 40)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall7"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall7" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 40)
 
-[node name="wall8" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-30, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="wall8" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 40)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall8"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall9" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-120, 40)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall8"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall10" parent="world/entities/stage_1" instance=ExtResource("5_o6xl0")]
+position = Vector2(-140, 40)
 
-[node name="wall9" type="StaticBody2D" parent="world/entities"]
-position = Vector2(-10, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="stage_2" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall9"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -37)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall9"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall11" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -57)
 
-[node name="wall10" type="StaticBody2D" parent="world/entities"]
-position = Vector2(10, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="wall12" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -77)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall10"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall13" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -97)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall10"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall14" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -117)
 
-[node name="wall11" type="StaticBody2D" parent="world/entities"]
-position = Vector2(30, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="wall15" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -137)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall11"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall2" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(20, -37)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall11"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall3" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(0, -37)
 
-[node name="wall12" type="StaticBody2D" parent="world/entities"]
-position = Vector2(50, 49)
-collision_layer = 2
-collision_mask = 2
+[node name="wall4" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-20, -37)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall12"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall5" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -37)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall12"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall6" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -57)
 
-[node name="wall3" type="StaticBody2D" parent="world/entities"]
-position = Vector2(39, -59)
-collision_layer = 2
-collision_mask = 2
+[node name="wall7" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -77)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall3"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall8" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -97)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall3"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall9" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -117)
 
-[node name="wall2" type="StaticBody2D" parent="world/entities"]
-position = Vector2(59, -39)
-collision_layer = 2
-collision_mask = 2
+[node name="wall10" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -137)
 
-[node name="sprite" type="Sprite2D" parent="world/entities/wall2"]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_o5qli")
+[node name="wall16" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 68)
 
-[node name="shape" type="CollisionShape2D" parent="world/entities/wall2"]
-shape = SubResource("RectangleShape2D_tbgi4")
+[node name="wall17" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 88)
+
+[node name="wall18" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 88)
+
+[node name="wall19" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 68)
+
+[node name="wall20" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 68)
+
+[node name="wall21" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 68)
+
+[node name="wall22" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 88)
+
+[node name="wall23" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 88)
 
 [node name="preview" type="Node2D" parent="world"]
 
@@ -217,4 +206,4 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_ya4ey")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="."]

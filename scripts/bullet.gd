@@ -6,7 +6,7 @@ var direction = Vector2.ZERO
 @export var speed: float
 @export var shape: CollisionShape2D
 @export var preview = false
-@export var preview_lifetime = 50.0
+@export var preview_lifetime = 20.0
 
 @onready var debug = get_node('/root/main/canvas_layer/debug')
 @onready var collector = get_node('/root/main/world/entities/player/collector')
@@ -37,7 +37,7 @@ func pass_time(delta: float):
 
 	var remaining_distance = speed * delta
 	if preview:
-		remaining_distance *= 0.2
+		remaining_distance *= 0.15
 
 	for i in range(100):
 		var pos_from = global_position

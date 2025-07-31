@@ -1,16 +1,66 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7ghtcr6g2eya"]
+[gd_scene load_steps=8 format=3 uid="uid://c7ghtcr6g2eya"]
 
-[ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_3uv27"]
+[ext_resource type="Script" uid="uid://qvjrfm4cabar" path="res://scripts/wall.gd" id="1_3usl3"]
+[ext_resource type="Texture2D" uid="uid://cpojr1o14tpnj" path="res://sprites/wall.png" id="1_3uv27"]
+[ext_resource type="Texture2D" uid="uid://dndjdh00jb1kt" path="res://sprites/wall_despawn_0002.png" id="3_s6egt"]
+[ext_resource type="Texture2D" uid="uid://xhdfa4xakq13" path="res://sprites/wall_despawn_0001.png" id="4_tho4q"]
+[ext_resource type="Texture2D" uid="uid://de4u24nrqp1rm" path="res://sprites/wall_despawn_0000.png" id="5_o4edb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3usl3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_3uv27")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_o4edb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tho4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_s6egt")
+}],
+"loop": false,
+"name": &"despawn",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_s6egt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_tho4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_o4edb")
+}],
+"loop": false,
+"name": &"spawn",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tbgi4"]
 
-[node name="wall" type="StaticBody2D"]
+[node name="wall" type="StaticBody2D" node_paths=PackedStringArray("sprite", "shape")]
 collision_layer = 2
 collision_mask = 2
+script = ExtResource("1_3usl3")
+sprite = NodePath("sprite")
+shape = NodePath("shape")
 
-[node name="sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_3uv27")
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_3usl3")
+animation = &"despawn"
+autoplay = "default"
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tbgi4")
+
+[connection signal="animation_finished" from="sprite" to="." method="_on_sprite_animation_finished"]

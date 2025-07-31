@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		new_bullet.global_position = global_position
 		new_bullet.direction = gun.global_transform.x
 	
-	for i in range(50):
+	for i in range(20):
 		var new_preview_bullet = preview_bullet.instantiate()
 		preview.add_child(new_preview_bullet)
 		new_preview_bullet.global_position = global_position
