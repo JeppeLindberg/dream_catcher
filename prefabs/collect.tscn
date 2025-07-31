@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfuyvtjqbbbm8"]
+
+[ext_resource type="Script" uid="uid://bq6r17eb6ot7a" path="res://scripts/collect.gd" id="1_bbdm0"]
+
+[sub_resource type="Curve" id="Curve_x5edh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.82826, 0.0, 0, 0]
+point_count = 2
+
+[node name="collect" type="Node2D"]
+script = ExtResource("1_bbdm0")
+curve_toward_center = SubResource("Curve_x5edh")

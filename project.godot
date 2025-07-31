@@ -10,10 +10,17 @@ config_version=5
 
 [application]
 
-config/name="gmtk_2025_loop"
+config/name="dream_catcher"
 run/main_scene="uid://b00cd2indxrbc"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="ignore"
+window/stretch/scale=2.0
+window/stretch/scale_mode="integer"
 
 [input]
 

@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://be6bk5g6w2pd4"]
+
+[ext_resource type="Texture2D" uid="uid://d4f4twecqdh7c" path="res://sprites/dream_0000.png" id="1_4n3do"]
+[ext_resource type="Texture2D" uid="uid://dfmh8wqw536ob" path="res://sprites/dream_0001.png" id="2_kmy7j"]
+[ext_resource type="Texture2D" uid="uid://c7u8ftji0hagi" path="res://sprites/dream_0002.png" id="3_whvh6"]
+[ext_resource type="Texture2D" uid="uid://b7mx7oom06mnd" path="res://sprites/dream_0003.png" id="4_32ku3"]
+[ext_resource type="Script" uid="uid://cn4ledyyhhm21" path="res://scripts/poof.gd" id="5_kmy7j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ug8ca"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4n3do")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kmy7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_whvh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_32ku3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_whvh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kmy7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_4n3do")
+}],
+"loop": false,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="poof" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ug8ca")
+autoplay = "default"
+script = ExtResource("5_kmy7j")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

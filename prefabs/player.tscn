@@ -1,0 +1,37 @@
+[gd_scene load_steps=9 format=3 uid="uid://2dg0etc2tjkj"]
+
+[ext_resource type="Script" uid="uid://5i1alw5h5qiu" path="res://scripts/player.gd" id="1_u51tk"]
+[ext_resource type="PackedScene" uid="uid://b00volwc6gtfy" path="res://prefabs/bullet.tscn" id="2_kbsxf"]
+[ext_resource type="PackedScene" uid="uid://djxby67twl11m" path="res://prefabs/bullet_preview.tscn" id="3_rgeog"]
+[ext_resource type="PackedScene" uid="uid://tkoudpo3nu7x" path="res://prefabs/happy.tscn" id="4_kbsxf"]
+[ext_resource type="Texture2D" uid="uid://bpilfhpdq63ki" path="res://sprites/circle.png" id="4_opo22"]
+[ext_resource type="Texture2D" uid="uid://c7fxnk0pdpx37" path="res://sprites/arrow_head.png" id="5_8rb0w"]
+[ext_resource type="Script" uid="uid://cut1egwb4vgnj" path="res://scripts/collector.gd" id="6_sd3sa"]
+[ext_resource type="PackedScene" uid="uid://dfuyvtjqbbbm8" path="res://prefabs/collect.tscn" id="7_m2qjg"]
+
+[node name="player" type="Node2D" node_paths=PackedStringArray("gun", "effects")]
+script = ExtResource("1_u51tk")
+gun = NodePath("gun")
+effects = NodePath("effects")
+bullet = ExtResource("2_kbsxf")
+preview_bullet = ExtResource("3_rgeog")
+happy_effect = ExtResource("4_kbsxf")
+
+[node name="sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.116274, 0.116274)
+texture = ExtResource("4_opo22")
+
+[node name="gun" type="Node2D" parent="."]
+rotation = -1.5708
+
+[node name="sprite" type="Sprite2D" parent="gun"]
+position = Vector2(13, 0)
+rotation = 1.5708
+scale = Vector2(0.123119, 0.123119)
+texture = ExtResource("5_8rb0w")
+
+[node name="collector" type="Node2D" parent="."]
+script = ExtResource("6_sd3sa")
+collect_prefab = ExtResource("7_m2qjg")
+
+[node name="effects" type="Node2D" parent="."]

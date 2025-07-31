@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://dqdpse8x6qnqy"]
 
 [ext_resource type="Script" uid="uid://xseiv624l5qn" path="res://scripts/dream.gd" id="1_xbmxs"]
-[ext_resource type="Texture2D" uid="uid://bpilfhpdq63ki" path="res://sprites/circle.png" id="2_2uwfh"]
+[ext_resource type="PackedScene" uid="uid://be6bk5g6w2pd4" path="res://prefabs/poof.tscn" id="2_xbmxs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o6xl0"]
 
-[node name="dream" type="Area2D"]
+[node name="dream" type="Area2D" node_paths=PackedStringArray("visual")]
 script = ExtResource("1_xbmxs")
 direction = Vector2(-1, 0.5)
 up_down_magnitude = 10.0
 up_down_speed = 0.5
+poof_prefab = ExtResource("2_xbmxs")
+visual = NodePath("visual")
+color_sequence = Array[Color]([Color(0.956863, 0.027451, 0.854902, 1), Color(0.952941, 0.207843, 1, 1), Color(0.74902, 0.117647, 0.917647, 1), Color(0.552941, 0.0117647, 0.796078, 1), Color(0.329412, 0.0509804, 0.6, 1), Color(0.219608, 0.0941176, 0.388235, 1), Color(1, 1, 1, 1), Color(0.513726, 0.262745, 0.643137, 1), Color(0.745098, 0.333333, 0.839216, 1), Color(0.862745, 0.164706, 0.92549, 1)])
 
-[node name="sprite" type="Sprite2D" parent="."]
-self_modulate = Color(0.359003, 0.481777, 0.284369, 1)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_2uwfh")
+[node name="visual" type="Node2D" parent="."]
 
 [node name="shape" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_o6xl0")

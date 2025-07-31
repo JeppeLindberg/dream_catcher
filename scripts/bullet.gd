@@ -2,7 +2,6 @@ extends Node2D
 
 var direction = Vector2.ZERO
 
-
 @export_flags_2d_physics var wall_layer
 @export var speed: float
 @export var shape: CollisionShape2D
@@ -10,14 +9,19 @@ var direction = Vector2.ZERO
 @export var preview_lifetime = 50.0
 
 @onready var debug = get_node('/root/main/canvas_layer/debug')
+@onready var collector = get_node('/root/main/world/entities/player/collector')
 
 var lifetime = 0.0
+var collecting = false
 
 
 func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
+	if collecting:
+		return
+
 	if preview:
 		queue_free()
 		return
@@ -75,9 +79,17 @@ func get_next_pos(pos_from, pos_to):
 	return pos_to
 
 func _on_area_entered(area:Area2D) -> void:
+	if collecting:
+		return
+
 	if preview:
 		return
 	
 	if area.is_in_group('dream'):
-		area.queue_free()
-		queue_free()
+		collector.collect([self, area])
+
+func start_collecting():
+	for child in get_children():
+		if child is CollisionShape2D:
+			child.set_deferred('disabled', true)
+	collecting = true
