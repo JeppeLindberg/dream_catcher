@@ -1,14 +1,19 @@
-[gd_scene load_steps=10 format=3 uid="uid://b00cd2indxrbc"]
+[gd_scene load_steps=15 format=3 uid="uid://b00cd2indxrbc"]
 
 [ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://2dg0etc2tjkj" path="res://prefabs/player.tscn" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://d01ktcxcd3p5t" path="res://scripts/world.gd" id="1_tipki"]
 [ext_resource type="Script" uid="uid://cb827swstlrut" path="res://scripts/stage.gd" id="3_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c7ghtcr6g2eya" path="res://prefabs/wall.tscn" id="5_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://de11xcsixo631" path="res://prefabs/sprite_prefabs/outer_wall.tscn" id="6_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://t3uonexf6o8f" path="res://prefabs/border.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://co5rttyyegvkt" path="res://prefabs/sprite_prefabs/corner.tscn" id="6_trceg"]
 [ext_resource type="PackedScene" uid="uid://dqdpse8x6qnqy" path="res://prefabs/dream.tscn" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://b3hqfv650qq4d" path="res://prefabs/spawner.tscn" id="9_85g3d"]
+[ext_resource type="Script" uid="uid://d2q61ebtadx2k" path="res://scripts/mouse_follower.gd" id="10_choun"]
+[ext_resource type="Script" uid="uid://b3e2mjvbh2d31" path="res://scripts/camera.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://denyvxuwt1778" path="res://scripts/debug.gd" id="11_ya4ey"]
+[ext_resource type="Script" uid="uid://7c2imhkfl4j6" path="res://scripts/shoot_feedback.gd" id="12_eb6dy"]
 
 [node name="main" type="Node2D"]
 
@@ -18,8 +23,9 @@ stages = [NodePath("entities/stage_1"), NodePath("entities/stage_2")]
 
 [node name="entities" type="Node2D" parent="world"]
 
-[node name="player" parent="world/entities" node_paths=PackedStringArray("camera") instance=ExtResource("1_o6xl0")]
+[node name="player" parent="world/entities" node_paths=PackedStringArray("camera", "shoot_feedback") instance=ExtResource("1_o6xl0")]
 camera = NodePath("../../../camera")
+shoot_feedback = NodePath("../../../camera_nodes/shoot_feedback")
 
 [node name="stage_1" type="Node2D" parent="world/entities"]
 visible = false
@@ -153,15 +159,37 @@ z_index = -1
 scale = Vector2(144.126, 55.6354)
 texture = ExtResource("1_o5qli")
 
-[node name="background" type="Sprite2D" parent="world/static"]
-z_index = -1
-scale = Vector2(3, 3)
-texture = ExtResource("1_o5qli")
+[node name="borders" type="Node2D" parent="world/static"]
 
-[node name="2" type="Sprite2D" parent="world/static/background"]
-modulate = Color(0, 0, 0, 1)
-scale = Vector2(0.95, 0.95)
-texture = ExtResource("1_o5qli")
+[node name="left" parent="world/static/borders" instance=ExtResource("6_a8y0u")]
+position = Vector2(-145.5, 0)
+
+[node name="top" parent="world/static/borders" instance=ExtResource("6_a8y0u")]
+position = Vector2(0, -145.5)
+rotation = 1.5708
+
+[node name="right" parent="world/static/borders" instance=ExtResource("6_a8y0u")]
+position = Vector2(145.5, 0)
+rotation = 3.14159
+
+[node name="bottom" parent="world/static/borders" instance=ExtResource("6_a8y0u")]
+position = Vector2(0, 145.5)
+rotation = 4.71239
+
+[node name="top_left" parent="world/static/borders" instance=ExtResource("6_trceg")]
+position = Vector2(-143, -143)
+
+[node name="top_right" parent="world/static/borders" instance=ExtResource("6_trceg")]
+position = Vector2(143, -143)
+rotation = 1.57079
+
+[node name="bottom_right" parent="world/static/borders" instance=ExtResource("6_trceg")]
+position = Vector2(143, 143)
+rotation = 3.14159
+
+[node name="bottom_left" parent="world/static/borders" instance=ExtResource("6_trceg")]
+position = Vector2(-143, 143)
+rotation = 4.71238
 
 [node name="border" parent="world/static" instance=ExtResource("6_tefeu")]
 position = Vector2(0, -147)
@@ -206,4 +234,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_ya4ey")
 
-[node name="camera" type="Camera2D" parent="."]
+[node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("mouse_follower", "shoot_feedback")]
+script = ExtResource("10_ya4ey")
+mouse_follower = NodePath("../camera_nodes/mouse_follower")
+shoot_feedback = NodePath("../camera_nodes/shoot_feedback")
+
+[node name="camera_nodes" type="Node2D" parent="."]
+
+[node name="mouse_follower" type="Node2D" parent="camera_nodes"]
+script = ExtResource("10_choun")
+
+[node name="shoot_feedback" type="Node2D" parent="camera_nodes"]
+script = ExtResource("12_eb6dy")

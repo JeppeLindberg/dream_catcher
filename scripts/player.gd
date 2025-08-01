@@ -3,6 +3,7 @@ extends Node2D
 @export var camera: Camera2D
 @export var gun: Node2D
 @export var effects: Node2D
+@export var shoot_feedback: Node2D
 @export var bullet: PackedScene
 @export var preview_bullet: PackedScene
 @export var happy_effect: PackedScene
@@ -24,6 +25,7 @@ func _process(delta: float) -> void:
 		entities.add_child(new_bullet)
 		new_bullet.global_position = global_position
 		new_bullet.direction = gun.global_transform.x
+		shoot_feedback.move_direction(-gun.global_transform.x)
 	
 	for i in range(20):
 		var new_preview_bullet = preview_bullet.instantiate()

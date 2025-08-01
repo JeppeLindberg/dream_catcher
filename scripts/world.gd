@@ -6,12 +6,11 @@ extends Node2D
 
 var next_stage_timer = 0.0
 var stage_queue = []
-var first_stage = true
-var current_stage = 0
+var current_stage = -1
 
 
 func _ready() -> void:
-	stage_queue = range(len(stages))
+	stage_queue = [0]
 	next_stage_timer = 1.0
 	for stage in stages:
 		stage.visible = true;
@@ -23,7 +22,7 @@ func _process(delta: float) -> void:
 		var prev_stage = current_stage
 		current_stage = stage_queue.pop_front()
 
-		if not first_stage:
+		if prev_stage != -1:
 			stages[prev_stage].deactivate()
 		stages[current_stage].activate()
 
@@ -32,8 +31,4 @@ func _process(delta: float) -> void:
 			stage_queue.erase(current_stage)
 			stage_queue.shuffle()
 
-		if first_stage:
-			stage_queue.shuffle()
-
 		next_stage_timer -= 1.0
-		first_stage = false

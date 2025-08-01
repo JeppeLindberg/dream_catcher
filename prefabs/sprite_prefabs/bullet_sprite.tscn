@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://c728eyowbi8vc"]
+
+[ext_resource type="Texture2D" uid="uid://deee2tcetnlon" path="res://sprites/bubble_0000.png" id="1_a85qk"]
+[ext_resource type="Texture2D" uid="uid://dim7fehf505h5" path="res://sprites/bubble_0001.png" id="2_dgxxo"]
+[ext_resource type="Texture2D" uid="uid://ccklkslaj3e7s" path="res://sprites/bubble_0002.png" id="3_5b8at"]
+[ext_resource type="Texture2D" uid="uid://7k7266e3o61v" path="res://sprites/bubble_0003.png" id="4_qgtbw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6jtdi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_a85qk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_dgxxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5b8at")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qgtbw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="sprite" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_6jtdi")

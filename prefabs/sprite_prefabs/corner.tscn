@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://co5rttyyegvkt"]
+
+[ext_resource type="Texture2D" uid="uid://6j2i5iqv07xj" path="res://sprites/corner_0000.png" id="1_wv86w"]
+[ext_resource type="Texture2D" uid="uid://c1bwt8ehqk355" path="res://sprites/corner_0001.png" id="2_nnxaj"]
+[ext_resource type="Texture2D" uid="uid://dhmf75vr72y6v" path="res://sprites/corner_0002.png" id="3_outi8"]
+[ext_resource type="Texture2D" uid="uid://cftm52bel5k05" path="res://sprites/corner_0003.png" id="4_1aabq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gqmmt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wv86w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nnxaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_outi8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1aabq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="top_left" type="AnimatedSprite2D"]
+z_index = -1
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_gqmmt")
+autoplay = "default"

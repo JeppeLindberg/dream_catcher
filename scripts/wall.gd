@@ -37,7 +37,6 @@ func spawn():
 func despawn():
 	shape.disabled = true
 	sprite.play('despawn')
-	print(sprite.animation)
 
 func _on_sprite_animation_finished() -> void:
 	if sprite.animation == 'spawn':

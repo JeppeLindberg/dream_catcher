@@ -6,13 +6,16 @@ var direction = Vector2.ZERO
 @export var speed: float
 @export var shape: CollisionShape2D
 @export var preview = false
-@export var preview_lifetime = 20.0
+@export var preview_lifetime = 20.
+@export var sprite: AnimatedSprite2D
 
 @onready var debug = get_node('/root/main/canvas_layer/debug')
 @onready var collector = get_node('/root/main/world/entities/player/collector')
 
 var lifetime = 0.0
 var collecting = false
+var can_collect = false
+var health = 3
 
 
 func _ready() -> void:
@@ -31,9 +34,15 @@ func _process(delta: float) -> void:
 var pending_warp = Vector2.ZERO
 
 func pass_time(delta: float):
+	var alpha = 1.0
+
 	lifetime += delta
 	if preview:
-		modulate = Color(modulate.r,modulate.g, modulate.b, inverse_lerp(preview_lifetime, 0.0, lifetime))
+		alpha *= inverse_lerp(preview_lifetime, 0.0, lifetime)
+
+	var frame_count = sprite.sprite_frames.get_frame_count('default')
+	var frame_speed = sprite.sprite_frames.get_animation_speed('default')
+	sprite.set_frame_and_progress(int(lifetime * frame_speed) % frame_count, floor(lifetime * frame_speed))
 
 	var remaining_distance = speed * delta
 	if preview:
@@ -52,6 +61,11 @@ func pass_time(delta: float):
 
 		if remaining_distance <= 0.0:
 			break
+	
+	if not can_collect:
+		alpha *= 0.3
+
+	modulate = Color(modulate.r,modulate.g, modulate.b, alpha)
 
 func get_next_pos(pos_from, pos_to):
 	var space_state = get_world_2d().direct_space_state
@@ -69,6 +83,12 @@ func get_next_pos(pos_from, pos_to):
 			visible = false
 			return pos_to
 
+		can_collect = true
+		health -= 1
+		if health <= 0:
+			queue_free()
+			return pos_to
+
 		if collision['collider'].is_in_group('border'):
 			pending_warp = collision['collider'].warp_delta
 			return collision['position']
@@ -81,11 +101,13 @@ func get_next_pos(pos_from, pos_to):
 func _on_area_entered(area:Area2D) -> void:
 	if collecting:
 		return
-
 	if preview:
+		return
+	if not can_collect:
 		return
 	
 	if area.is_in_group('dream'):
+		global_position = area.global_position
 		collector.collect([self, area])
 
 func start_collecting():
