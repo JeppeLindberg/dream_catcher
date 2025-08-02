@@ -6,6 +6,6 @@ extends Camera2D
 
 
 func _process(_delta: float) -> void:
-	global_position = ((main.global_position * 0.0) + (mouse_follower.global_position * 0.5) + (shoot_feedback.global_position * 9.5)) / 10.0
+	global_position = ((mouse_follower.global_position * 0.5) + (shoot_feedback.global_position * 9.5)) / 15.0
 
 

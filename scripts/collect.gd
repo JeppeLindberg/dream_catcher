@@ -6,6 +6,7 @@ extends Node2D
 @export var random_direction_speed = 200.0
 
 var lifetime = 0.0
+@onready var main = get_node('/root/main')
 @onready var random_direction = Vector2.UP.rotated(deg_to_rad(randf() * 360.0))
 
 var child_base_pos = {}
@@ -16,10 +17,13 @@ func initiate() -> void:
 		child_base_pos[child] = child.position
 
 func _process(delta: float) -> void:
+	delta *= main.time_dialation
+
 	if len(child_base_pos) == 0:
 		initiate()
 	if len(child_base_pos) == 0:
 		return
+
 
 	lifetime += delta
 

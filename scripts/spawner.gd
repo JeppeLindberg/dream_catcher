@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var main = get_node('/root/main')
 @export var entities: Node2D
 @export var spawns_per_sec = 2.0
 @export var spawn_prefab: PackedScene
@@ -11,6 +12,8 @@ func _ready() -> void:
 	spawn_progress += 1.0/spawns_per_sec
 
 func _process(delta: float) -> void:
+	delta *= main.time_dialation
+
 	spawn_progress += delta
 	if spawn_progress > 1.0/spawns_per_sec:
 		var new_spawn = spawn_prefab.instantiate()

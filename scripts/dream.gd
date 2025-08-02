@@ -9,6 +9,7 @@ extends Area2D
 @export var poofs_per_second = 1.5
 @export var color_sequence: Array[Color]
 
+@onready var main = get_node('/root/main')
 @onready var player = get_node('/root/main/world/entities/player')
 
 var lifetime = 0.0
@@ -26,6 +27,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if collecting:
 		return
+
+	delta *= main.time_dialation
 
 	poof_timer += delta * poofs_per_second
 	lifetime += delta

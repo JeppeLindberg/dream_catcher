@@ -21,6 +21,5 @@ func _process(delta: float) -> void:
 	global_position = global_position.move_toward(Vector2.ZERO,move_back_speed*delta)
 
 func move_direction(direction):
-	print(direction)
 	directions.append(direction.normalized() + Vector2.UP.rotated(deg_to_rad(randf() * 360.0)) * 0.5)
 	times.append(lifetime)

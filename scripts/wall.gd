@@ -1,5 +1,6 @@
 extends StaticBody2D
 
+@onready var main = get_node('/root/main')
 @export var sprite: AnimatedSprite2D
 @export var shape: CollisionShape2D
 
@@ -20,6 +21,9 @@ func deactivate():
 	despawn_delay = min((-global_position.x - global_position.y - 200.0) / 200.0, -0.01)
 
 func _process(delta: float) -> void:
+	sprite.speed_scale = main.time_dialation
+	delta *= main.time_dialation
+
 	if spawn_delay < 0.0:
 		spawn_delay += delta
 		if spawn_delay > 0.0:

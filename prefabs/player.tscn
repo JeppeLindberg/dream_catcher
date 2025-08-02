@@ -1,13 +1,65 @@
-[gd_scene load_steps=9 format=3 uid="uid://2dg0etc2tjkj"]
+[gd_scene load_steps=16 format=3 uid="uid://2dg0etc2tjkj"]
 
 [ext_resource type="Script" uid="uid://5i1alw5h5qiu" path="res://scripts/player.gd" id="1_u51tk"]
 [ext_resource type="PackedScene" uid="uid://b00volwc6gtfy" path="res://prefabs/bullet.tscn" id="2_kbsxf"]
 [ext_resource type="PackedScene" uid="uid://djxby67twl11m" path="res://prefabs/bullet_preview.tscn" id="3_rgeog"]
 [ext_resource type="PackedScene" uid="uid://tkoudpo3nu7x" path="res://prefabs/happy.tscn" id="4_kbsxf"]
-[ext_resource type="Texture2D" uid="uid://bpilfhpdq63ki" path="res://sprites/circle.png" id="4_opo22"]
-[ext_resource type="Texture2D" uid="uid://c7fxnk0pdpx37" path="res://sprites/arrow_head.png" id="5_8rb0w"]
+[ext_resource type="Texture2D" uid="uid://788ep7idk1n1" path="res://sprites/sleeper_0000.png" id="5_opo22"]
+[ext_resource type="Texture2D" uid="uid://cueokkd160dtm" path="res://sprites/sleeper_0001.png" id="6_8rb0w"]
 [ext_resource type="Script" uid="uid://cut1egwb4vgnj" path="res://scripts/collector.gd" id="6_sd3sa"]
+[ext_resource type="Script" uid="uid://fcmtq68a2j5j" path="res://scripts/always_up.gd" id="7_llb5v"]
 [ext_resource type="PackedScene" uid="uid://dfuyvtjqbbbm8" path="res://prefabs/collect.tscn" id="7_m2qjg"]
+[ext_resource type="Texture2D" uid="uid://dxoahoymk8lbx" path="res://sprites/sleeper_0002.png" id="7_sd3sa"]
+[ext_resource type="Texture2D" uid="uid://suircsgoeiyc" path="res://sprites/targetting_0000.png" id="8_8rb0w"]
+[ext_resource type="Texture2D" uid="uid://cdhisxsyu6uny" path="res://sprites/targetting_0001.png" id="9_sd3sa"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8rb0w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_8rb0w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_sd3sa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_llb5v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_sd3sa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8rb0w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m2qjg"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": ExtResource("5_opo22")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8rb0w")
+}, {
+"duration": 2.0,
+"texture": ExtResource("7_sd3sa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8rb0w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [node name="player" type="Node2D" node_paths=PackedStringArray("gun", "effects")]
 script = ExtResource("1_u51tk")
@@ -17,18 +69,33 @@ bullet = ExtResource("2_kbsxf")
 preview_bullet = ExtResource("3_rgeog")
 happy_effect = ExtResource("4_kbsxf")
 
-[node name="sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.116274, 0.116274)
-texture = ExtResource("4_opo22")
-
 [node name="gun" type="Node2D" parent="."]
 rotation = -1.5708
 
-[node name="sprite" type="Sprite2D" parent="gun"]
-position = Vector2(13, 0)
-rotation = 1.5708
-scale = Vector2(0.123119, 0.123119)
-texture = ExtResource("5_8rb0w")
+[node name="sprite2" type="AnimatedSprite2D" parent="gun"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.490196)
+texture_filter = 1
+position = Vector2(40, 0.0001448)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_8rb0w")
+autoplay = "default"
+script = ExtResource("7_llb5v")
+
+[node name="sprite" type="AnimatedSprite2D" parent="gun"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.490196)
+texture_filter = 1
+position = Vector2(25, 9.04997e-05)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_llb5v")
+autoplay = "default"
+script = ExtResource("7_llb5v")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_m2qjg")
+autoplay = "default"
 
 [node name="collector" type="Node2D" parent="."]
 script = ExtResource("6_sd3sa")

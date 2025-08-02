@@ -1,6 +1,6 @@
 extends Node2D
 
-
+@onready var main = get_node('/root/main')
 @export var stages: Array[Node2D]
 @export var secs_between_stages = 10.0
 
@@ -17,6 +17,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	delta *= main.time_dialation
+
 	next_stage_timer += delta * 1.0/secs_between_stages
 	if next_stage_timer > 1.0:
 		var prev_stage = current_stage

@@ -1,9 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b00cd2indxrbc"]
+[gd_scene load_steps=23 format=3 uid="uid://b00cd2indxrbc"]
 
 [ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://2dg0etc2tjkj" path="res://prefabs/player.tscn" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://d01ktcxcd3p5t" path="res://scripts/world.gd" id="1_tipki"]
+[ext_resource type="Script" uid="uid://clsuskgqry3xu" path="res://scripts/main.gd" id="1_yc10j"]
 [ext_resource type="Script" uid="uid://cb827swstlrut" path="res://scripts/stage.gd" id="3_85g3d"]
+[ext_resource type="PackedScene" uid="uid://58un20r6gwtf" path="res://prefabs/unhappy.tscn" id="3_jbj1t"]
 [ext_resource type="PackedScene" uid="uid://c7ghtcr6g2eya" path="res://prefabs/wall.tscn" id="5_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://de11xcsixo631" path="res://prefabs/sprite_prefabs/outer_wall.tscn" id="6_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://t3uonexf6o8f" path="res://prefabs/border.tscn" id="6_tefeu"]
@@ -14,8 +16,17 @@
 [ext_resource type="Script" uid="uid://b3e2mjvbh2d31" path="res://scripts/camera.gd" id="10_ya4ey"]
 [ext_resource type="Script" uid="uid://denyvxuwt1778" path="res://scripts/debug.gd" id="11_ya4ey"]
 [ext_resource type="Script" uid="uid://7c2imhkfl4j6" path="res://scripts/shoot_feedback.gd" id="12_eb6dy"]
+[ext_resource type="FontFile" uid="uid://drlt2gtgelwig" path="res://fonts/cc.yal.7w7.block.ttf" id="12_jkv2x"]
+[ext_resource type="Script" uid="uid://btulsh2htf4d1" path="res://scripts/good_sleep_window.gd" id="17_0ld40"]
+[ext_resource type="Texture2D" uid="uid://c4465jxaccr57" path="res://sprites/good_sleep_acieved.png" id="17_muem4"]
+[ext_resource type="Texture2D" uid="uid://sd67o6idlbxu" path="res://sprites/continue.png" id="18_dp3eg"]
+[ext_resource type="Script" uid="uid://8l7mjfmghbsl" path="res://scripts/continue.gd" id="19_gqmmt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dp3eg"]
+size = Vector2(132, 20)
 
 [node name="main" type="Node2D"]
+script = ExtResource("1_yc10j")
 
 [node name="world" type="Node2D" parent="." node_paths=PackedStringArray("stages")]
 script = ExtResource("1_tipki")
@@ -23,9 +34,13 @@ stages = [NodePath("entities/stage_1"), NodePath("entities/stage_2")]
 
 [node name="entities" type="Node2D" parent="world"]
 
-[node name="player" parent="world/entities" node_paths=PackedStringArray("camera", "shoot_feedback") instance=ExtResource("1_o6xl0")]
+[node name="player" parent="world/entities" node_paths=PackedStringArray("camera", "shoot_feedback", "debug", "good_sleep_window") instance=ExtResource("1_o6xl0")]
+z_index = 1
 camera = NodePath("../../../camera")
 shoot_feedback = NodePath("../../../camera_nodes/shoot_feedback")
+unhappy_effect = ExtResource("3_jbj1t")
+debug = NodePath("../../../debug_canvas/debug")
+good_sleep_window = NodePath("../../../good_sleep_window")
 
 [node name="stage_1" type="Node2D" parent="world/entities"]
 visible = false
@@ -210,22 +225,22 @@ rotation = 1.57079
 warp_delta = Vector2(-285, 0)
 
 [node name="spawner" parent="world/static" node_paths=PackedStringArray("entities") instance=ExtResource("9_85g3d")]
-position = Vector2(84, -191)
+position = Vector2(313, -259)
 entities = NodePath("../../entities")
 spawns_per_sec = 0.2
 spawn_prefab = ExtResource("7_tipki")
 max_distance = 50.0
 
 [node name="spawner2" parent="world/static" node_paths=PackedStringArray("entities") instance=ExtResource("9_85g3d")]
-position = Vector2(269, -96)
+position = Vector2(377, -71)
 entities = NodePath("../../entities")
 spawns_per_sec = 0.2
 spawn_prefab = ExtResource("7_tipki")
 max_distance = 50.0
 
-[node name="canvas_layer" type="CanvasLayer" parent="."]
+[node name="debug_canvas" type="CanvasLayer" parent="."]
 
-[node name="debug" type="Control" parent="canvas_layer"]
+[node name="debug" type="Control" parent="debug_canvas" node_paths=PackedStringArray("debug_text")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -233,6 +248,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_ya4ey")
+debug_text = NodePath("text")
+
+[node name="text" type="Label" parent="debug_canvas/debug"]
+texture_filter = 1
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("12_jkv2x")
+theme_override_font_sizes/font_size = 16
+text = "debug
+debug"
 
 [node name="camera" type="Camera2D" parent="." node_paths=PackedStringArray("mouse_follower", "shoot_feedback")]
 script = ExtResource("10_ya4ey")
@@ -246,3 +272,34 @@ script = ExtResource("10_choun")
 
 [node name="shoot_feedback" type="Node2D" parent="camera_nodes"]
 script = ExtResource("12_eb6dy")
+
+[node name="good_sleep_window" type="Node2D" parent="."]
+visible = false
+z_index = 100
+script = ExtResource("17_0ld40")
+
+[node name="good_sleep_acieved" type="Sprite2D" parent="good_sleep_window"]
+texture_filter = 1
+position = Vector2(0, -30)
+texture = ExtResource("17_muem4")
+
+[node name="continue" type="Area2D" parent="good_sleep_window" node_paths=PackedStringArray("collider")]
+position = Vector2(0, 18)
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("19_gqmmt")
+collider = NodePath("shape")
+
+[node name="sprite" type="Sprite2D" parent="good_sleep_window/continue"]
+z_index = 100
+texture_filter = 1
+texture = ExtResource("18_dp3eg")
+
+[node name="shape" type="CollisionShape2D" parent="good_sleep_window/continue"]
+shape = SubResource("RectangleShape2D_dp3eg")
+
+[node name="black" type="Sprite2D" parent="good_sleep_window"]
+self_modulate = Color(0, 0, 0, 0.443137)
+z_index = -1
+scale = Vector2(144.126, 55.6354)
+texture = ExtResource("1_o5qli")

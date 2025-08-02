@@ -9,7 +9,8 @@ var direction = Vector2.ZERO
 @export var preview_lifetime = 20.
 @export var sprite: AnimatedSprite2D
 
-@onready var debug = get_node('/root/main/canvas_layer/debug')
+@onready var main = get_node('/root/main')
+@onready var debug = get_node('/root/main/debug_canvas/debug')
 @onready var collector = get_node('/root/main/world/entities/player/collector')
 
 var lifetime = 0.0
@@ -34,6 +35,10 @@ func _process(delta: float) -> void:
 var pending_warp = Vector2.ZERO
 
 func pass_time(delta: float):
+	if not preview:
+		sprite.speed_scale = main.time_dialation
+		delta *= main.time_dialation
+
 	var alpha = 1.0
 
 	lifetime += delta
