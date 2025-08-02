@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3v8g06nmcif6"]
+
+[ext_resource type="Texture2D" uid="uid://dstrku6ydqgxf" path="res://sprites/background_snake.png" id="1_5e5ok"]
+[ext_resource type="Script" uid="uid://bmkv2udt7kxtn" path="res://scripts/background_sprite.gd" id="2_ppfdv"]
+
+[node name="sprite" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_5e5ok")
+script = ExtResource("2_ppfdv")

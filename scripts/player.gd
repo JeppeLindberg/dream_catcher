@@ -14,7 +14,10 @@ extends Node2D
 @export var debug: Control
 @export var sleep_quality_decay_per_sec = 0.18
 @export var good_sleep_window: Node2D
-
+@export var shoot_sound: Array[AudioStream]
+@export var audio: Node
+@export var happy_sound: Array[AudioStream]
+@export var unhappy_sound: Array[AudioStream]
 
 var next_shot_available = 0.0
 var lifetime = 0.0
@@ -35,8 +38,10 @@ func _process(delta: float) -> void:
 
 	if sleep_quality_meter > 0.0:
 		unhappy(abs(sleep_quality_meter - move_toward(sleep_quality_meter, 0, delta * sleep_quality_decay_per_sec)))
+	if sleep_quality_meter < 0.0:
+		sleep_quality_meter = move_toward(sleep_quality_meter, 0, delta * sleep_quality_decay_per_sec / 2.0)
 	
-	debug.draw_text.append(sleep_quality_meter)
+	# debug.draw_text.append(sleep_quality_meter)
 
 	if next_shot_available < lifetime and Input.is_action_just_pressed("shoot"):
 		unhappy(0.3)
@@ -46,6 +51,7 @@ func _process(delta: float) -> void:
 		new_bullet.direction = gun.global_transform.x
 		shoot_feedback.move_direction(-gun.global_transform.x)
 		next_shot_available = lifetime + 0.3
+		audio.play_effect(shoot_sound.pick_random())
 	
 	for i in range(20):
 		var new_preview_bullet = preview_bullet.instantiate()
@@ -57,19 +63,21 @@ func _process(delta: float) -> void:
 func happy():
 	sleep_quality_meter += 2.0
 	if sleep_quality_meter > sleep_quality_max:
+		audio.play_effect(happy_sound.pick_random())
 		var new_happy_effect = happy_effect.instantiate()
 		effects.add_child(new_happy_effect)
 		new_happy_effect.global_position = global_position
 		sleep_quality_max = sleep_quality_meter + 1.0
 		sleep_quality_min = sleep_quality_meter - 1.0
 		
-		if (sleep_quality_meter > 15.0) and (not good_sleep_achieved):
+		if (sleep_quality_meter > 10.0) and (not good_sleep_achieved):
 			good_sleep_achieved = true
 			good_sleep_window.visible = true
 
 func unhappy(amount):
 	sleep_quality_meter -= amount
 	if sleep_quality_meter < sleep_quality_min:
+		audio.play_effect(unhappy_sound.pick_random())
 		var new_unhappy_effect = unhappy_effect.instantiate()
 		effects.add_child(new_unhappy_effect)
 		new_unhappy_effect.global_position = global_position

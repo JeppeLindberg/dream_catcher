@@ -1,12 +1,17 @@
-[gd_scene load_steps=23 format=3 uid="uid://b00cd2indxrbc"]
+[gd_scene load_steps=31 format=3 uid="uid://b00cd2indxrbc"]
 
 [ext_resource type="Texture2D" uid="uid://c3e0ky53oyo36" path="res://sprites/white.png" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://2dg0etc2tjkj" path="res://prefabs/player.tscn" id="1_o6xl0"]
 [ext_resource type="Script" uid="uid://d01ktcxcd3p5t" path="res://scripts/world.gd" id="1_tipki"]
 [ext_resource type="Script" uid="uid://clsuskgqry3xu" path="res://scripts/main.gd" id="1_yc10j"]
+[ext_resource type="AudioStream" uid="uid://0sn8u0ku1jn3" path="res://audio/Sketchbook 2024-02-28_01.ogg" id="2_vxglm"]
+[ext_resource type="Script" uid="uid://dqh83hpae2g82" path="res://scripts/background.gd" id="3_2f3dj"]
 [ext_resource type="Script" uid="uid://cb827swstlrut" path="res://scripts/stage.gd" id="3_85g3d"]
 [ext_resource type="PackedScene" uid="uid://58un20r6gwtf" path="res://prefabs/unhappy.tscn" id="3_jbj1t"]
+[ext_resource type="PackedScene" uid="uid://c3v8g06nmcif6" path="res://prefabs/background_sprite.tscn" id="4_yq6so"]
 [ext_resource type="PackedScene" uid="uid://c7ghtcr6g2eya" path="res://prefabs/wall.tscn" id="5_o6xl0"]
+[ext_resource type="AudioStream" uid="uid://bv1yq3ppvofhm" path="res://audio/Retro Blop 18.wav" id="5_pm3ni"]
+[ext_resource type="AudioStream" uid="uid://bmcykp5twont8" path="res://audio/Retro Blop 22.wav" id="6_2wyq8"]
 [ext_resource type="PackedScene" uid="uid://de11xcsixo631" path="res://prefabs/sprite_prefabs/outer_wall.tscn" id="6_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://t3uonexf6o8f" path="res://prefabs/border.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://co5rttyyegvkt" path="res://prefabs/sprite_prefabs/corner.tscn" id="6_trceg"]
@@ -21,26 +26,40 @@
 [ext_resource type="Texture2D" uid="uid://c4465jxaccr57" path="res://sprites/good_sleep_acieved.png" id="17_muem4"]
 [ext_resource type="Texture2D" uid="uid://sd67o6idlbxu" path="res://sprites/continue.png" id="18_dp3eg"]
 [ext_resource type="Script" uid="uid://8l7mjfmghbsl" path="res://scripts/continue.gd" id="19_gqmmt"]
+[ext_resource type="AudioStream" uid="uid://cmvl2smq0ejow" path="res://audio/Retro Blop 07.wav" id="22_jscy8"]
+[ext_resource type="Script" uid="uid://dxnjs6wwmywyo" path="res://scripts/audio.gd" id="22_pm3ni"]
+[ext_resource type="PackedScene" uid="uid://gmn43k3f01yl" path="res://prefabs/audio_player.tscn" id="24_y6deb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dp3eg"]
 size = Vector2(132, 20)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_yc10j")
+music = ExtResource("2_vxglm")
+
+[node name="background" type="Node2D" parent="."]
+z_index = -100
+position = Vector2(-280, -255)
+script = ExtResource("3_2f3dj")
+background_prefab = ExtResource("4_yq6so")
 
 [node name="world" type="Node2D" parent="." node_paths=PackedStringArray("stages")]
 script = ExtResource("1_tipki")
-stages = [NodePath("entities/stage_1"), NodePath("entities/stage_2")]
+stages = [NodePath("entities/stage_1"), NodePath("entities/stage_2"), NodePath("entities/stage_3"), NodePath("entities/stage_4"), NodePath("entities/stage_5"), NodePath("entities/stage_6")]
 
 [node name="entities" type="Node2D" parent="world"]
 
-[node name="player" parent="world/entities" node_paths=PackedStringArray("camera", "shoot_feedback", "debug", "good_sleep_window") instance=ExtResource("1_o6xl0")]
+[node name="player" parent="world/entities" node_paths=PackedStringArray("camera", "shoot_feedback", "debug", "good_sleep_window", "audio") instance=ExtResource("1_o6xl0")]
 z_index = 1
 camera = NodePath("../../../camera")
 shoot_feedback = NodePath("../../../camera_nodes/shoot_feedback")
 unhappy_effect = ExtResource("3_jbj1t")
 debug = NodePath("../../../debug_canvas/debug")
 good_sleep_window = NodePath("../../../good_sleep_window")
+shoot_sound = Array[AudioStream]([ExtResource("5_pm3ni")])
+audio = NodePath("../../../audio")
+happy_sound = Array[AudioStream]([ExtResource("6_2wyq8")])
+unhappy_sound = Array[AudioStream]([ExtResource("22_jscy8")])
 
 [node name="stage_1" type="Node2D" parent="world/entities"]
 visible = false
@@ -164,15 +183,367 @@ position = Vector2(60, 88)
 [node name="wall23" parent="world/entities/stage_2" instance=ExtResource("5_o6xl0")]
 position = Vector2(80, 88)
 
+[node name="stage_3" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
+
+[node name="wall" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -37)
+
+[node name="wall11" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -57)
+
+[node name="wall12" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -77)
+
+[node name="wall13" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -97)
+
+[node name="wall14" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -117)
+
+[node name="wall15" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -137)
+
+[node name="wall2" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, -37)
+
+[node name="wall3" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, -37)
+
+[node name="wall24" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, -37)
+
+[node name="wall25" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, -37)
+
+[node name="wall26" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-120, -37)
+
+[node name="wall27" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-140, -37)
+
+[node name="wall42" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-140, 43)
+
+[node name="wall43" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 143)
+
+[node name="wall28" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, -37)
+
+[node name="wall29" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -37)
+
+[node name="wall30" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(120, -37)
+
+[node name="wall31" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(140, -37)
+
+[node name="wall4" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 43)
+
+[node name="wall37" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 63)
+
+[node name="wall38" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 83)
+
+[node name="wall39" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 103)
+
+[node name="wall40" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 123)
+
+[node name="wall41" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 143)
+
+[node name="wall32" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 43)
+
+[node name="wall33" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 43)
+
+[node name="wall34" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 43)
+
+[node name="wall35" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(120, 43)
+
+[node name="wall36" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(140, 43)
+
+[node name="wall5" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -37)
+
+[node name="wall6" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -57)
+
+[node name="wall7" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -77)
+
+[node name="wall8" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -97)
+
+[node name="wall9" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -117)
+
+[node name="wall10" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -137)
+
+[node name="wall16" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 43)
+
+[node name="wall17" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 63)
+
+[node name="wall18" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 63)
+
+[node name="wall19" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 43)
+
+[node name="wall20" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 83)
+
+[node name="wall21" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 83)
+
+[node name="wall22" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 103)
+
+[node name="wall23" parent="world/entities/stage_3" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 103)
+
+[node name="stage_4" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
+
+[node name="wall" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, -100)
+
+[node name="wall11" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, -100)
+
+[node name="wall12" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, -100)
+
+[node name="wall13" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -100)
+
+[node name="wall14" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -80)
+
+[node name="wall15" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -60)
+
+[node name="wall16" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -40)
+
+[node name="wall17" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, -20)
+
+[node name="wall18" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 0)
+
+[node name="wall19" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 20)
+
+[node name="wall20" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 40)
+
+[node name="wall21" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(100, 60)
+
+[node name="wall22" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 60)
+
+[node name="wall23" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 60)
+
+[node name="wall24" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 60)
+
+[node name="wall29" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 60)
+
+[node name="wall30" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, 60)
+
+[node name="wall31" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, 60)
+
+[node name="wall5" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, -100)
+
+[node name="wall6" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-60, -100)
+
+[node name="wall7" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-80, -100)
+
+[node name="wall8" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, -100)
+
+[node name="wall27" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 60)
+
+[node name="wall32" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 80)
+
+[node name="wall33" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 100)
+
+[node name="wall34" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 120)
+
+[node name="wall35" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, 140)
+
+[node name="wall9" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, -140)
+
+[node name="wall10" parent="world/entities/stage_4" instance=ExtResource("5_o6xl0")]
+position = Vector2(-100, -120)
+
+[node name="stage_5" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
+
+[node name="wall" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(40, 60)
+
+[node name="wall19" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(60, 60)
+
+[node name="wall22" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(80, 60)
+
+[node name="wall11" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 60)
+
+[node name="wall12" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 80)
+
+[node name="wall13" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 100)
+
+[node name="wall14" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 120)
+
+[node name="wall15" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-40, 140)
+
+[node name="wall2" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(20, 60)
+
+[node name="wall3" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(0, 60)
+
+[node name="wall4" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-20, 60)
+
+[node name="wall5" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-19, -60)
+
+[node name="wall6" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-39, -60)
+
+[node name="wall20" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-59, -60)
+
+[node name="wall21" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(-79, -60)
+
+[node name="wall7" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(1, -60)
+
+[node name="wall8" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(21, -60)
+
+[node name="wall9" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(41, -60)
+
+[node name="wall10" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(41, -80)
+
+[node name="wall16" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(41, -100)
+
+[node name="wall17" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(41, -120)
+
+[node name="wall18" parent="world/entities/stage_5" instance=ExtResource("5_o6xl0")]
+position = Vector2(41, -140)
+
+[node name="stage_6" type="Node2D" parent="world/entities"]
+visible = false
+script = ExtResource("3_85g3d")
+
+[node name="wall" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-50, 90)
+
+[node name="wall11" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-70, 90)
+
+[node name="wall12" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, 70)
+
+[node name="wall16" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, 90)
+
+[node name="wall17" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(70, 90)
+
+[node name="wall18" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(50, 90)
+
+[node name="wall13" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, 50)
+
+[node name="wall14" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, 90)
+
+[node name="wall15" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, 70)
+
+[node name="wall2" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, 50)
+
+[node name="wall3" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, -50)
+
+[node name="wall4" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, -70)
+
+[node name="wall5" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-90, -90)
+
+[node name="wall6" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-70, -90)
+
+[node name="wall7" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(-50, -90)
+
+[node name="wall8" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(50, -90)
+
+[node name="wall9" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(70, -90)
+
+[node name="wall10" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, -90)
+
+[node name="wall19" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, -70)
+
+[node name="wall20" parent="world/entities/stage_6" instance=ExtResource("5_o6xl0")]
+position = Vector2(90, -50)
+
 [node name="preview" type="Node2D" parent="world"]
 
 [node name="static" type="Node2D" parent="world"]
-
-[node name="black" type="Sprite2D" parent="world/static"]
-self_modulate = Color(0, 0, 0, 1)
-z_index = -1
-scale = Vector2(144.126, 55.6354)
-texture = ExtResource("1_o5qli")
 
 [node name="borders" type="Node2D" parent="world/static"]
 
@@ -303,3 +674,7 @@ self_modulate = Color(0, 0, 0, 0.443137)
 z_index = -1
 scale = Vector2(144.126, 55.6354)
 texture = ExtResource("1_o5qli")
+
+[node name="audio" type="Node" parent="."]
+script = ExtResource("22_pm3ni")
+audio_player_prefab = ExtResource("24_y6deb")

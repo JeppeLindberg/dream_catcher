@@ -8,7 +8,10 @@ var direction = Vector2.ZERO
 @export var preview = false
 @export var preview_lifetime = 20.
 @export var sprite: AnimatedSprite2D
+@export var collect_sound: Array[AudioStream]
 
+
+@onready var audio = get_node('/root/main/audio')
 @onready var main = get_node('/root/main')
 @onready var debug = get_node('/root/main/debug_canvas/debug')
 @onready var collector = get_node('/root/main/world/entities/player/collector')
@@ -112,6 +115,7 @@ func _on_area_entered(area:Area2D) -> void:
 		return
 	
 	if area.is_in_group('dream'):
+		audio.play_effect(collect_sound.pick_random())
 		global_position = area.global_position
 		collector.collect([self, area])
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b00volwc6gtfy"]
+[gd_scene load_steps=5 format=3 uid="uid://b00volwc6gtfy"]
 
 [ext_resource type="Script" uid="uid://c6rpr6ssfj2sf" path="res://scripts/bullet.gd" id="1_lv25w"]
+[ext_resource type="AudioStream" uid="uid://07fln3quiof6" path="res://audio/Retro Blop StereoUP 04.wav" id="2_7rc6x"]
 [ext_resource type="PackedScene" uid="uid://c728eyowbi8vc" path="res://prefabs/sprite_prefabs/bullet_sprite.tscn" id="2_lv25w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lv25w"]
@@ -13,6 +14,7 @@ wall_layer = 2
 speed = 150.0
 shape = NodePath("shape")
 sprite = NodePath("sprite")
+collect_sound = Array[AudioStream]([ExtResource("2_7rc6x")])
 
 [node name="sprite" parent="." instance=ExtResource("2_lv25w")]
 

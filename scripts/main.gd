@@ -3,6 +3,14 @@ extends Node2D
 
 var time_dialation = 1.0
 
+@export var music: AudioStream
+@onready var audio = get_node('/root/main/audio')
+
+
+func _ready() -> void:
+	audio.play_music(music)
+
+
 func is_pos_overlapping_collider(collider, pos):	
 	var point = PhysicsPointQueryParameters2D.new()
 	point.position = pos
